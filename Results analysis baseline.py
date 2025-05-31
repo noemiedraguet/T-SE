@@ -29,7 +29,7 @@ def analyze_results_energy(results_path):
   energy_gpu_list = []
   energy_ram_list = []
   energy_cpu_list = []
-  for experience in range (1,6):
+  for experience in range (0,5):
     filename = "emissions_" + str(experience) + ".csv"
     filepath = os.path.join(emissions_dir, filename)
     df = pd.read_csv(filepath)
@@ -71,7 +71,7 @@ def analyze_results(results_path):
   test_acc = []
   max_training_acc = []
   max_testing_acc = []
-  for experience in range (1,6):
+  for experience in range (0,5):
     filename = "Output_" + str(int(experience)) + ".txt"
     filepath = os.path.join(output_dir, filename)
     with open(filepath, 'r') as f:
