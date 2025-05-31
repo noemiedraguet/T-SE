@@ -1,5 +1,5 @@
 # T-SE
-This repository contains the code to build T-SE (Thresholded-Squeeze-and-Excitation) Networks, as well as some scripts to analyze the results. The implementation is derived from the following repository: https://github.com/moskomule/senet.pytorch.git.
+This repository contains the code to build T-SE (Thresholded-Squeeze-and-Excitation) Networks, as well as some scripts to analyze the results. The implementation is derived from the following repository: https://github.com/moskomule/senet.pytorch.git. It provides a PyTorch implementation of Squeeze-and-Excitation networks (Hu, Shen and Sun, 2018).
 
 Main.py
 -------
