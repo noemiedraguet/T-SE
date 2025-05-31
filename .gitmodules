@@ -1,0 +1,3 @@
+[submodule "t-se_implementation"]
+	path = t-se_implementation
+	url = https://github.com/noemiedraguet/senet.pytorch.git
