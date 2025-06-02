@@ -417,7 +417,7 @@ ax1.legend(loc='lower left')
 ax1 = axs[1]
 
 plot_with_error_bars(ax1, switched_off_testing_avg, test_accuracies_avg, test_accuracies_sd, 's', 'Testing Accuracy', 'red')
-ax1.axhline(y=0.8579, linestyle='--', color='black', alpha=1, label='Baseline Accuracy',  linewidth=2)
+ax1.axhline(y=0.8578, linestyle='--', color='black', alpha=1, label='Baseline Accuracy',  linewidth=2)
 
 ax1.set_xlabel('Switched Off Channels (Testing)', fontsize = 12)
 ax1.set_ylabel('Accuracy', fontsize = 12)
@@ -462,7 +462,7 @@ ax1.legend(loc='lower left')
 ax2 = axs[1]
 
 plot_with_error_bars(ax2, values_testing_avg, test_accuracies_avg, test_accuracies_sd, 's', 'Testing Accuracy', 'red')
-ax2.axhline(y=0.8579, linestyle='--', color='black', alpha=1, label='Baseline Accuracy', linewidth=2)
+ax2.axhline(y=0.8578, linestyle='--', color='black', alpha=1, label='Baseline Accuracy', linewidth=2)
 
 ax2.set_xlabel('Avoided computations for testing (millions)', fontsize=12)
 ax2.set_ylabel('Accuracy', fontsize=12)
@@ -539,12 +539,12 @@ def plot_with_error_bars_computations_testing(ax, x, y, y_sd, marker, label, col
 
 # GPU energy vs threshold
 plot_with_std_energy(axs[0], threshold_list, gpu_list_avg, gpu_list_sd, 'd-', 'Energy (GPU)', 'green',
-              baseline=0.0294, baseline_label='Baseline GPU energy')
+              baseline=0.0224, baseline_label='Baseline GPU energy')
 axs[0].set_title('Energy (GPU) vs Threshold', fontsize=16)
 
 # CPU energy vs threshold
 plot_with_std_energy(axs[1], threshold_list, cpu_list_avg, cpu_list_sd, 'd-', 'Energy (CPU)', 'green',
-              baseline=0.0144, baseline_label='Baseline CPU energy')
+              baseline=0.0310, baseline_label='Baseline CPU energy')
 axs[1].set_title('Energy (CPU) vs Threshold', fontsize=16)
 
 plt.tight_layout()
@@ -554,12 +554,12 @@ fig, axs = plt.subplots(1, 2, figsize=(14, 6))  # 1 row, 2 columns
 
 # RAM energy vs threshold
 plot_with_std_energy(axs[0], threshold_list, ram_list_avg, ram_list_sd, 'd-', 'Energy (RAM)', 'green',
-              baseline=0.0128, baseline_label='Baseline RAM energy')
+              baseline=0.0055, baseline_label='Baseline RAM energy')
 axs[0].set_title('Energy (RAM) vs Threshold', fontsize=16)
 
 # Total energy vs threshold
 plot_with_std_energy(axs[1], threshold_list, energy_list_avg, energy_list_sd, 'd-', 'Total energy', 'green',
-              baseline=0.0566, baseline_label='Baseline total energy')
+              baseline=0.0589, baseline_label='Baseline total energy')
 axs[1].set_title('Total energy vs Threshold', fontsize=16)
 
 plt.tight_layout()
@@ -569,12 +569,12 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))
 
 # GPU energy vs switched off channels (Training)
 plot_with_error_bars_channels_training(axs[0], switched_off_training_avg, gpu_list_avg, gpu_list_sd,
-                     'd', 'Energy (GPU)', 'green', baseline=0.0294, baseline_label='Baseline GPU energy')
+                     'd', 'Energy (GPU)', 'green', baseline=0.0224, baseline_label='Baseline GPU energy')
 axs[0].set_title('Energy (GPU) vs Number of channels switched off at training', fontsize=16)
 
 # CPU energy vs switched off channels (Training)
 plot_with_error_bars_channels_training(axs[1], switched_off_training_avg, cpu_list_avg, cpu_list_sd,
-                     'd', 'Energy (CPU)', 'green', baseline=0.0144, baseline_label='Baseline CPU energy')
+                     'd', 'Energy (CPU)', 'green', baseline=0.0310, baseline_label='Baseline CPU energy')
 axs[1].set_title('Energy (CPU) vs Number of channels switched off at training', fontsize=16)
 
 plt.tight_layout()
@@ -584,12 +584,12 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))  # 1 row, 2 columns
 
 # RAM energy vs switched off channels (Training)
 plot_with_error_bars_channels_training(axs[0], switched_off_training_avg, ram_list_avg, ram_list_sd,
-                     'd', 'Energy (RAM)', 'green', baseline=0.0128, baseline_label='Baseline RAM energy')
+                     'd', 'Energy (RAM)', 'green', baseline=0.0055, baseline_label='Baseline RAM energy')
 axs[0].set_title('Energy (RAM) vs Number of channels switched off at training', fontsize=16)
 
 # Total energy vs switched off channels (Training)
 plot_with_error_bars_channels_training(axs[1], switched_off_training_avg, energy_list_avg, energy_list_sd,
-                     'd', 'Total energy', 'green', baseline=0.0566, baseline_label='Baseline total energy')
+                     'd', 'Total energy', 'green', baseline=0.0589, baseline_label='Baseline total energy')
 axs[1].set_title('Total energy vs Number of channels switched off at training', fontsize=16)
 
 plt.tight_layout()
@@ -599,12 +599,12 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))  # 2 graphs side by side
 
 # GPU energy vs switched off channels (Testing)
 plot_with_error_bars_channels_testing(axs[0], switched_off_testing_avg, gpu_list_avg, gpu_list_sd,
-                     'd', 'Energy (GPU)', 'green', baseline=0.0294, baseline_label='Baseline GPU energy')
+                     'd', 'Energy (GPU)', 'green', baseline=0.0224, baseline_label='Baseline GPU energy')
 axs[0].set_title('Energy (GPU) vs Number of channels switched off at testing', fontsize=16)
 
 # CPU energy vs switched off channels (Testing)
 plot_with_error_bars_channels_testing(axs[1], switched_off_testing_avg, cpu_list_avg, cpu_list_sd,
-                     'd', 'Energy (CPU)', 'green', baseline=0.0144, baseline_label='Baseline CPU energy')
+                     'd', 'Energy (CPU)', 'green', baseline=0.0310, baseline_label='Baseline CPU energy')
 axs[1].set_title('Energy (CPU) vs Number of channels switched off at testing', fontsize=16)
 
 plt.tight_layout()
@@ -616,12 +616,12 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))  # 1 row, 2 columns
 
 # RAM energy vs switched off channels (Testing)
 plot_with_error_bars_channels_testing(axs[0], switched_off_testing_avg, ram_list_avg, ram_list_sd,
-                     'd', 'Energy (RAM)', 'green', baseline=0.0128, baseline_label='Baseline RAM energy')
+                     'd', 'Energy (RAM)', 'green', baseline=0.0055, baseline_label='Baseline RAM energy')
 axs[0].set_title('Energy (RAM) vs Number of channels switched off at testing', fontsize=16)
 
 # Total energy vs switched off channels (Testing)
 plot_with_error_bars_channels_testing(axs[1], switched_off_testing_avg, energy_list_avg, energy_list_sd,
-                     'd', 'Total energy', 'green', baseline=0.0566, baseline_label='Baseline total energy')
+                     'd', 'Total energy', 'green', baseline=0.0589, baseline_label='Baseline total energy')
 axs[1].set_title('Total energy vs Number of channels switched off at testing', fontsize=16)
 
 plt.tight_layout()
@@ -631,12 +631,12 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))
 
 # GPU energy vs avoided computations (Training)
 plot_with_error_bars_computations_training(axs[0], values_training_avg, gpu_list_avg, gpu_list_sd,
-                     'd', 'Energy (GPU)', 'green', baseline=0.0294, baseline_label='Baseline GPU energy')
+                     'd', 'Energy (GPU)', 'green', baseline=0.0224, baseline_label='Baseline GPU energy')
 axs[0].set_title('Energy (GPU) vs Avoided computations at training', fontsize=16)
 
 # CPU energy vs avoided computations (Training)
 plot_with_error_bars_computations_training(axs[1], values_training_avg, cpu_list_avg, cpu_list_sd,
-                     'd', 'Energy (CPU)', 'green', baseline=0.0144, baseline_label='Baseline CPU energy')
+                     'd', 'Energy (CPU)', 'green', baseline=0.0310, baseline_label='Baseline CPU energy')
 axs[1].set_title('Energy (CPU) vs Avoided computations at training', fontsize=16)
 
 plt.tight_layout()
@@ -646,12 +646,12 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))  # 1 row, 2 columns
 
 # RAM energy vs avoided computations (Training)
 plot_with_error_bars(axs[0], values_training_avg, ram_list_avg, ram_list_sd,
-                     'd', 'Energy (RAM)', 'green', baseline=0.0128, baseline_label='Baseline RAM energy')
+                     'd', 'Energy (RAM)', 'green', baseline=0.0055, baseline_label='Baseline RAM energy')
 axs[0].set_title('Energy (RAM) vs Avoided computations at training', fontsize=16)
 
 # Total energy vs avoided computations (Training)
 plot_with_error_bars(axs[1], values_training_avg, energy_list_avg, energy_list_sd,
-                     'd', 'Total energy', 'green', baseline=0.0566, baseline_label='Baseline total energy')
+                     'd', 'Total energy', 'green', baseline=0.0589, baseline_label='Baseline total energy')
 axs[1].set_title('Total energy vs Avoided computations at training', fontsize=16)
 
 plt.tight_layout()
@@ -661,12 +661,12 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))
 
 # GPU energy vs avoided computations (Testing)
 plot_with_error_bars_computations_testing(axs[0], values_testing_avg, gpu_list_avg, gpu_list_sd,
-                     'd', 'Energy (GPU)', 'green', baseline=0.0294, baseline_label='Baseline GPU energy')
+                     'd', 'Energy (GPU)', 'green', baseline=0.0224, baseline_label='Baseline GPU energy')
 axs[0].set_title('Energy (GPU) vs Avoided computations at testing', fontsize=16)
 
 # CPU energy vs avoided computations (Testing)
 plot_with_error_bars_computations_testing(axs[1], values_testing_avg, cpu_list_avg, cpu_list_sd,
-                     'd', 'Energy (CPU)', 'green', baseline=0.0144, baseline_label='Baseline CPU energy')
+                     'd', 'Energy (CPU)', 'green', baseline=0.0310, baseline_label='Baseline CPU energy')
 axs[1].set_title('Energy (CPU) vs Avoided computations at testing', fontsize=16)
 
 plt.tight_layout()
@@ -676,12 +676,12 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))
 
 # RAM energy vs avoided computations (Testing)
 plot_with_error_bars(axs[0], values_testing_avg, ram_list_avg, ram_list_sd,
-                     'd', 'Energy (RAM)', 'green', baseline=0.0128, baseline_label='Baseline RAM energy')
+                     'd', 'Energy (RAM)', 'green', baseline=0.0055, baseline_label='Baseline RAM energy')
 axs[0].set_title('Energy (RAM) vs Avoided computations at testing', fontsize=16)
 
 # Total energy vs avoided computations (Testing)
 plot_with_error_bars(axs[1], values_testing_avg, energy_list_avg, energy_list_sd,
-                     'd', 'Total energy', 'green', baseline=0.0566, baseline_label='Baseline total energy')
+                     'd', 'Total energy', 'green', baseline=0.0589, baseline_label='Baseline total energy')
 axs[1].set_title('Total energy vs Avoided computations at testing', fontsize=16)
 
 plt.tight_layout()
