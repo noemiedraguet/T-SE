@@ -1,0 +1,4 @@
+[submodule "t-se implementation"]
+	path = t-se implementation
+	url = https://github.com/noemiedraguet/senet.pytorch.git
+	branch = residual
