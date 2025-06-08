@@ -786,7 +786,6 @@ for i, (c, k, ys) in enumerate(zip(colors, yticks, channels_switched_off_trainin
 
     alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
 
-    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
     ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
 
 ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
@@ -794,7 +793,6 @@ ax.set_ylabel('Threshold', fontsize=14, labelpad=20)
 ax.set_zlabel('Average number of switched off\n channels per input at training', fontsize=12, labelpad=18)
 ax.tick_params(axis='both', which='major', labelsize=12)
 
-# On the y-axis let's only label the discrete values that we have data for.
 ax.set_yticks(yticks)
 ax.set_xticks(xs)
 ax.set_box_aspect(None, zoom=0.73)
@@ -816,7 +814,6 @@ for i, (c, k, ys) in enumerate(zip(colors, yticks, channels_switched_off_testing
 
     alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
 
-    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
     ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
 
 ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
@@ -824,7 +821,6 @@ ax.set_ylabel('Threshold', fontsize=14, labelpad=20)
 ax.set_zlabel('Average number of switched off\n channels per input at testing', fontsize=12, labelpad=18)
 ax.tick_params(axis='both', which='major', labelsize=12, pad = 5)
 
-# On the y-axis let's only label the discrete values that we have data for.
 ax.set_yticks(yticks)
 ax.set_xticks(xs)
 ax.set_box_aspect(None, zoom=0.73)
@@ -846,7 +842,6 @@ for i, (c, k, ys) in enumerate(zip(colors, yticks, values_training_graph)):
 
     alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
 
-    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
     ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
 
 ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
@@ -854,7 +849,6 @@ ax.set_ylabel('Threshold', fontsize=14, labelpad=23)
 ax.set_zlabel('Average number of avoided\n computations per input at training', fontsize=12, labelpad=38)
 ax.tick_params(axis='both', which='major', labelsize=11, pad = 7)
 
-# On the y-axis let's only label the discrete values that we have data for.
 ax.set_yticks(yticks)
 ax.set_xticks(xs)
 ax.tick_params(axis='z', pad=15)
@@ -877,7 +871,6 @@ for i, (c, k, ys) in enumerate(zip(colors, yticks, values_testing_graph)):
 
     alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
 
-    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
     ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
 
 ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
@@ -885,7 +878,6 @@ ax.set_ylabel('Threshold', fontsize=14, labelpad=23)
 ax.set_zlabel('Average number of avoided\n computations per input at testing', fontsize=12, labelpad=38)
 ax.tick_params(axis='both', which='major', labelsize=11, pad = 7)
 
-# On the y-axis let's only label the discrete values that we have data for.
 ax.set_yticks(yticks)
 ax.set_xticks(xs)
 ax.tick_params(axis='z', pad=15)
@@ -936,7 +928,6 @@ for i, (c, k, ys) in enumerate(zip(colors, yticks, channels_switched_off_testing
 
     alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
 
-    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
     ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
 
 ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
@@ -944,7 +935,6 @@ ax.set_ylabel('Threshold', fontsize=14, labelpad=20)
 ax.set_zlabel('Average percentage of switched off\n channels per input at testing', fontsize=12, labelpad=18)
 ax.tick_params(axis='both', which='major', labelsize=12, pad = 5)
 
-# On the y-axis let's only label the discrete values that we have data for.
 ax.set_yticks(yticks)
 ax.set_xticks(xs)
 ax.set_box_aspect(None, zoom=0.73)
@@ -966,7 +956,6 @@ for i, (c, k, ys) in enumerate(zip(colors, yticks, values_training_graph)):
 
     alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
 
-    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
     ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
 
 ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
@@ -974,7 +963,6 @@ ax.set_ylabel('Threshold', fontsize=14, labelpad=23)
 ax.set_zlabel('Average percentage of avoided\n computations per input at training', fontsize=12, labelpad=38)
 ax.tick_params(axis='both', which='major', labelsize=11, pad = 7)
 
-# On the y-axis let's only label the discrete values that we have data for.
 ax.set_yticks(yticks)
 ax.set_xticks(xs)
 ax.tick_params(axis='z', pad=15)
@@ -997,7 +985,6 @@ for i, (c, k, ys) in enumerate(zip(colors, yticks, values_testing_graph)):
 
     alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
 
-    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
     ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
 
 ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
@@ -1005,7 +992,6 @@ ax.set_ylabel('Threshold', fontsize=14, labelpad=23)
 ax.set_zlabel('Average percentage of avoided\n computations per input at testing', fontsize=12, labelpad=38)
 ax.tick_params(axis='both', which='major', labelsize=11, pad = 7)
 
-# On the y-axis let's only label the discrete values that we have data for.
 ax.set_yticks(yticks)
 ax.set_xticks(xs)
 ax.tick_params(axis='z', pad=15)
