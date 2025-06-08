@@ -99,6 +99,10 @@ def analyze_results(results_path):
     layers_testing_detail = []
     layers_values_training_detail = []
     layers_values_testing_detail = []
+    channels_training_percent = []
+    channels_testing_percent = []
+    values_training_percent = []
+    values_testing_percent = []
     max_training_acc = []
     max_testing_acc = []
     for experience in range (0,5):
@@ -106,6 +110,10 @@ def analyze_results(results_path):
       layers_testing_exp = []
       layers_value_training_exp = []
       layers_value_testing_exp = []
+      channels_training_exp = []
+      channels_testing_exp = []
+      values_training_exp = []
+      values_testing_exp = []
       filename = "Output_" + str(int(threshold_nb+experience)) + ".txt"
       filepath = os.path.join(output_dir, filename)
       with open(filepath, 'r') as f:
@@ -161,11 +169,15 @@ def analyze_results(results_path):
                 score_value_training += round(contribution) * multiplier_values
                 layers_training_exp.append(contribution)
                 layers_value_training_exp.append(round(contribution) * multiplier_values)
+                channels_training_exp.append(percentage/100)
+                values_training_exp.append((round(contribution) * multiplier_values)/(multiplier*multiplier_values))
             elif phase == "testing":
                 score_testing += contribution
                 score_value_testing += round(contribution) * multiplier_values
                 layers_testing_exp.append(contribution)
                 layers_value_testing_exp.append(round(contribution) * multiplier_values)
+                channels_testing_exp.append(percentage/100)
+                values_testing_exp.append((round(contribution) * multiplier_values)/(multiplier*multiplier_values))
       layers_training_detail.append(layers_training_exp)
       layers_testing_detail.append(layers_testing_exp)
       layers_values_training_detail.append(layers_value_training_exp)
@@ -174,6 +186,10 @@ def analyze_results(results_path):
       channels_testing.append(score_testing)
       values_training.append(score_value_training)
       values_testing.append(score_value_testing)
+      channels_training_percent.append(channels_training_exp)
+      channels_testing_percent.append(channels_testing_exp)
+      values_training_percent.append(values_training_exp)
+      values_testing_percent.append(values_testing_exp)
 
 
     results["training_accuracy_avg"] = round(stat.mean(training_acc),4)
@@ -200,6 +216,14 @@ def analyze_results(results_path):
     results["max_testing_acc_avg"] = round(stat.mean(max_testing_acc),4)
     results["max_training_acc_sd"] = round(stat.stdev(max_training_acc),4)
     results["max_testing_acc_sd"] = round(stat.stdev(max_testing_acc),4)
+    results["channels_training_percent_avg"] = np.round(np.mean(np.array(channels_training_percent), axis=0),4)
+    results["channels_testing_percent_avg"] = np.round(np.mean(np.array(channels_testing_percent), axis=0),4)
+    results["values_training_percent_avg"] = np.round(np.mean(np.array(values_training_percent), axis=0),4)
+    results["values_testing_percent_avg"] = np.round(np.mean(np.array(values_testing_percent), axis=0),4)
+    results["channels_training_percent_sd"] = np.round(np.std(np.array(channels_training_percent), axis=0),4)
+    results["channels_testing_percent_sd"] = np.round(np.std(np.array(channels_testing_percent), axis=0),4)
+    results["values_training_percent_sd"] = np.round(np.std(np.array(values_training_percent), axis=0),4)
+    results["values_testing_percent_sd"] = np.round(np.std(np.array(values_testing_percent), axis=0),4)
 
     all_results.append(results)
 
@@ -265,6 +289,10 @@ switched_off_training_detail_avg = [entry['layers_training_detail_avg'].tolist()
 switched_off_testing_detail_avg = [entry['layers_testing_detail_avg'].tolist() for entry in results]
 switched_off_training_detail_sd = [entry['layers_training_detail_sd'].tolist() for entry in results]
 switched_off_testing_detail_sd = [entry['layers_testing_detail_sd'].tolist() for entry in results]
+switched_off_training_percent_avg = [entry['channels_training_percent_avg'].tolist() for entry in results]
+switched_off_testing_percent_avg = [entry['channels_testing_percent_avg'].tolist() for entry in results]
+switched_off_training_percent_sd = [entry['channels_training_percent_sd'].tolist() for entry in results]
+switched_off_testing_percent_sd = [entry['channels_testing_percent_sd'].tolist() for entry in results]
 
 values_training_avg = [entry['values_off_training_avg'] for entry in results]
 values_testing_avg = [entry['values_off_testing_avg'] for entry in results]
@@ -274,6 +302,10 @@ values_training_detail_avg = [entry['values_training_detail_avg'].tolist() for e
 values_testing_detail_avg = [entry['values_testing_detail_avg'].tolist() for entry in results]
 values_training_detail_sd = [entry['values_training_detail_sd'].tolist() for entry in results]
 values_testing_detail_sd = [entry['values_testing_detail_sd'].tolist() for entry in results]
+values_off_training_percent_avg = [entry['values_training_percent_avg'].tolist() for entry in results]
+values_off_testing_percent_avg = [entry['values_testing_percent_avg'].tolist() for entry in results]
+values_off_training_percent_sd = [entry['values_training_percent_sd'].tolist() for entry in results]
+values_off_testing_percent_sd = [entry['values_testing_percent_sd'].tolist() for entry in results]
 
 training_accuracies_avg = [entry['training_accuracy_avg'] for entry in results]
 training_accuracies_sd = [entry['training_accuracy_sd'] for entry in results]
@@ -295,6 +327,10 @@ print(switched_off_training_detail_avg)
 print(switched_off_testing_detail_avg)
 print(switched_off_training_detail_sd)
 print(switched_off_testing_detail_sd)
+print(switched_off_training_percent_avg)
+print(switched_off_testing_percent_avg)
+print(switched_off_training_percent_sd)
+print(switched_off_testing_percent_sd)
 
 
 print(values_training_avg)
@@ -305,6 +341,10 @@ print(values_training_detail_avg)
 print(values_testing_detail_avg)
 print(values_training_detail_sd)
 print(values_testing_detail_sd)
+print(values_off_training_percent_avg)
+print(values_off_testing_percent_avg)
+print(values_off_training_percent_sd)
+print(values_off_testing_percent_sd)
 
 
 print(training_accuracies_avg)
@@ -336,6 +376,10 @@ table_data = [
     switched_off_testing_detail_avg,
     switched_off_training_detail_sd,
     switched_off_testing_detail_sd,
+    switched_off_training_percent_avg,
+    switched_off_testing_percent_avg,
+    switched_off_training_percent_sd,
+    switched_off_testing_percent_sd,
     values_training_avg,
     values_testing_avg,
     values_training_sd,
@@ -344,6 +388,10 @@ table_data = [
     values_testing_detail_avg,
     values_training_detail_sd,
     values_testing_detail_sd,
+    values_off_training_percent_avg,
+    values_off_testing_percent_avg,
+    values_off_training_percent_sd,
+    values_off_testing_percent_sd,
     training_accuracies_avg,
     training_accuracies_sd,
     test_accuracies_avg,
@@ -362,10 +410,14 @@ row_names = [
     "switched_off_training_sd", "switched_off_testing_sd",
     "switched_off_training_detail_avg", "switched_off_testing_detail_avg",
     "switched_off_training_detail_sd", "switched_off_testing_detail_sd",
+    "switched_off_training_percent_avg", "switched_off_testing_percent_avg",
+    "switched_off_training_percent_sd", "switched_off_testing_percent_sd",
     "values_training_avg", "values_testing_avg",
     "values_training_sd", "values_testing_sd",
     "values_training_detail_avg", "values_testing_detail_avg",
     "values_training_detail_sd", "values_testing_detail_sd",
+    "values_off_training_percent_avg", "values_off_testing_percent_avg",
+    "values_off_training_percent_sd", "values_off_testing_percent_sd",
     "training_accuracies_avg", "training_accuracies_sd",
     "test_accuracies_avg", "test_accuracies_sd",
     "threshold_list",
@@ -403,41 +455,39 @@ fig, axs = plt.subplots(1, 3, figsize=(21, 6))
 # Accuracy vs switched off channels (Training)
 ax1 = axs[0]
 
-plot_with_error_bars(ax1, switched_off_training_avg, training_accuracies_avg, training_accuracies_sd, 'o', 'Training Accuracy', 'blue')
-ax1.axhline(y=1, linestyle='--', color='black', alpha=1, label='Baseline accuracy',  linewidth=2)
+plot_with_error_bars(ax1, switched_off_training_avg, training_accuracies_avg, training_accuracies_sd, 'o', 'Average training accuracy', 'blue')
+ax1.axhline(y=1, linestyle='--', color='black', alpha=1, label='Average baseline training accuracy',  linewidth=2)
 
-ax1.set_xlabel('Switched Off Channels (Training)', fontsize = 12)
-ax1.set_ylabel('Accuracy', fontsize = 12)
-ax1.set_title('Accuracy vs Number of switched off channels (Training)', fontsize = 16)
+ax1.set_xlabel('Average number of switched off channels per input (Training)', fontsize = 14)
+ax1.set_ylabel('Average accuracy', fontsize = 14)
 ax1.tick_params(axis='both', which='major', labelsize=12)
 ax1.grid(True)
-ax1.legend(loc='lower left')
+ax1.legend(loc='lower left', fontsize = 14)
+ax1.tick_params(axis='both', labelsize=14)
 
 # Accuracy vs switched off channels (Testing)
 ax1 = axs[1]
 
-plot_with_error_bars(ax1, switched_off_testing_avg, test_accuracies_avg, test_accuracies_sd, 's', 'Testing Accuracy', 'red')
-ax1.axhline(y=0.8578, linestyle='--', color='black', alpha=1, label='Baseline Accuracy',  linewidth=2)
+plot_with_error_bars(ax1, switched_off_testing_avg, test_accuracies_avg, test_accuracies_sd, 's', 'Average testing accuracy', 'red')
+ax1.axhline(y=0.8578, linestyle='--', color='black', alpha=1, label='Average baseline testing accuracy',  linewidth=2)
 
-ax1.set_xlabel('Switched Off Channels (Testing)', fontsize = 12)
-ax1.set_ylabel('Accuracy', fontsize = 12)
-ax1.set_title('Accuracy vs Number of switched off channels (Testing)', fontsize = 16)
-ax1.tick_params(axis='both', which='major', labelsize=12)
+ax1.set_xlabel('Average number of switched off channels per input (Testing)', fontsize = 14)
+ax1.set_ylabel('Average accuracy', fontsize = 14)
+ax1.tick_params(axis='both', which='major', labelsize=14)
 ax1.grid(True)
-ax1.legend(loc='lower left')
+ax1.legend(loc='lower left', fontsize = 14)
 
 # Accuracy vs threshold
 ax1 = axs[2]
 
-plot_with_std(ax1, threshold_list, training_accuracies_avg, training_accuracies_sd, 'o-', 'Training Accuracy', 'blue')
-plot_with_std(ax1, threshold_list, test_accuracies_avg, test_accuracies_sd, 's--', 'Testing Accuracy', 'red')
+plot_with_std(ax1, threshold_list, training_accuracies_avg, training_accuracies_sd, 'o-', 'Average training accuracy', 'blue')
+plot_with_std(ax1, threshold_list, test_accuracies_avg, test_accuracies_sd, 's--', 'Average testing accuracy', 'red')
 
-ax1.set_xlabel('Threshold', fontsize = 12)
-ax1.set_ylabel('Accuracy', fontsize = 12)
-ax1.set_title('Accuracy vs Threshold', fontsize = 16)
-ax1.tick_params(axis='both', which='major', labelsize=12)
+ax1.set_xlabel('Threshold', fontsize = 14)
+ax1.set_ylabel('Average accuracy', fontsize = 14)
+ax1.tick_params(axis='both', which='major', labelsize=14)
 ax1.grid(True)
-ax1.legend(loc='lower left')
+ax1.legend(loc='lower left', fontsize = 13)
 
 plt.tight_layout()
 plt.show()
@@ -448,28 +498,26 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))  # 2 graphes au lieu de 3
 # Accuracy vs avoided computations (Training)
 ax1 = axs[0]
 
-plot_with_error_bars(ax1, values_training_avg, training_accuracies_avg, training_accuracies_sd, 'o', 'Training Accuracy', 'blue')
-ax1.axhline(y=1, linestyle='--', color='black', alpha=1, label='Baseline accuracy', linewidth=2)
+plot_with_error_bars(ax1, values_training_avg, training_accuracies_avg, training_accuracies_sd, 'o', 'Average training accuracy', 'blue')
+ax1.axhline(y=1, linestyle='--', color='black', alpha=1, label='Average baseline training accuracy', linewidth=2)
 
-ax1.set_xlabel('Avoided computations for training (millions)', fontsize=12)
-ax1.set_ylabel('Accuracy', fontsize=12)
-ax1.set_title('Accuracy vs Number of avoided computations (Training)', fontsize=16)
-ax1.tick_params(axis='both', which='major', labelsize=12)
+ax1.set_xlabel('Average number of avoided computations per input for training (millions)', fontsize=14, labelpad=18)
+ax1.set_ylabel('Average accuracy', fontsize=14)
+ax1.tick_params(axis='both', which='major', labelsize=14)
 ax1.grid(True)
-ax1.legend(loc='lower left')
+ax1.legend(loc='lower left', fontsize=14)
 
 # Accuracy vs avoided computations (Testing)
 ax2 = axs[1]
 
-plot_with_error_bars(ax2, values_testing_avg, test_accuracies_avg, test_accuracies_sd, 's', 'Testing Accuracy', 'red')
-ax2.axhline(y=0.8578, linestyle='--', color='black', alpha=1, label='Baseline Accuracy', linewidth=2)
+plot_with_error_bars(ax2, values_testing_avg, test_accuracies_avg, test_accuracies_sd, 's', 'Average testing accuracy', 'red')
+ax2.axhline(y=0.8578, linestyle='--', color='black', alpha=1, label='Average baseline testing accuracy', linewidth=2)
 
-ax2.set_xlabel('Avoided computations for testing (millions)', fontsize=12)
-ax2.set_ylabel('Accuracy', fontsize=12)
-ax2.set_title('Accuracy vs Number of avoided computations (Testing)', fontsize=16)
-ax2.tick_params(axis='both', which='major', labelsize=12)
+ax2.set_xlabel('Average number of avoided computations per input for testing (millions)', fontsize=14, labelpad=18)
+ax2.set_ylabel('Average accuracy', fontsize=14)
+ax2.tick_params(axis='both', which='major', labelsize=14)
 ax2.grid(True)
-ax2.legend(loc='lower left')
+ax2.legend(loc='lower left', fontsize=14)
 
 plt.tight_layout()
 plt.show()
@@ -485,44 +533,44 @@ def plot_with_std_energy(ax, x, y, y_sd, style, label, color, baseline, baseline
                     color=color, alpha=0.2)
     ax.axhline(y=baseline, linestyle='--', color='black', alpha=0.7,
                label=baseline_label, linewidth=2)
-    ax.set_xlabel('Threshold', fontsize=12)
-    ax.set_ylabel('Energy (kWh)', fontsize=12)
-    ax.tick_params(axis='both', which='major', labelsize=12)
+    ax.set_xlabel('Threshold', fontsize=14)
+    ax.set_ylabel('Average energy consumed across 100 epochs (kWh)', fontsize=14)
+    ax.tick_params(axis='both', which='major', labelsize=14)
     ax.grid(True)
-    ax.legend(loc='lower left', bbox_to_anchor=(0, 0.05))
+    ax.legend(loc='lower left', bbox_to_anchor=(0, 0.05), fontsize = 14)
 
 def plot_with_error_bars_channels_training(ax, x, y, y_sd, marker, label, color, baseline, baseline_label):
     ax.errorbar(x, y, yerr=y_sd, fmt=marker, label=label, color=color,
                 ecolor=(0, 0, 0, 0.3), capsize=5, linestyle='None', markersize=7)
     ax.axhline(y=baseline, linestyle='--', color='black', alpha=0.7,
                label=baseline_label, linewidth=2)
-    ax.set_xlabel('Channels switched off at training', fontsize=12)
-    ax.set_ylabel('Energy (kWh)', fontsize=12)
-    ax.tick_params(axis='both', which='major', labelsize=12)
+    ax.set_xlabel('Average number of switched off channels per input at training', fontsize=14)
+    ax.set_ylabel('Average energy consumed across 100 epochs (kWh)', fontsize=14)
+    ax.tick_params(axis='both', which='major', labelsize=14)
     ax.grid(True)
-    ax.legend(loc='lower left', bbox_to_anchor=(0, 0.05))
+    ax.legend(loc='lower left', bbox_to_anchor=(0, 0.05), fontsize = 14)
 
 def plot_with_error_bars_channels_testing(ax, x, y, y_sd, marker, label, color, baseline, baseline_label):
     ax.errorbar(x, y, yerr=y_sd, fmt=marker, label=label, color=color,
                 ecolor=(0, 0, 0, 0.3), capsize=5, linestyle='None', markersize=7)
     ax.axhline(y=baseline, linestyle='--', color='black', alpha=0.7,
                label=baseline_label, linewidth=2)
-    ax.set_xlabel('Channels switched off at testing', fontsize=12)
-    ax.set_ylabel('Energy (kWh)', fontsize=12)
-    ax.tick_params(axis='both', which='major', labelsize=12)
+    ax.set_xlabel('Average number of switched off channels per input at testing', fontsize=14)
+    ax.set_ylabel('Average energy consumed across 100 epochs (kWh)', fontsize=14)
+    ax.tick_params(axis='both', which='major', labelsize=14)
     ax.grid(True)
-    ax.legend(loc='lower left', bbox_to_anchor=(0, 0.05))
+    ax.legend(loc='lower left', bbox_to_anchor=(0, 0.05), fontsize = 14)
 
 def plot_with_error_bars_computations_training(ax, x, y, y_sd, marker, label, color, baseline, baseline_label):
     ax.errorbar(x, y, yerr=y_sd, fmt=marker, label=label, color=color,
                 ecolor=(0, 0, 0, 0.3), capsize=5, linestyle='None', markersize=7)
     ax.axhline(y=baseline, linestyle='--', color='black', alpha=0.7,
                label=baseline_label, linewidth=2)
-    ax.set_xlabel('Avoided computations at training (millions)', fontsize=12)
-    ax.set_ylabel('Energy (kWh)', fontsize=12)
-    ax.tick_params(axis='both', which='major', labelsize=12)
+    ax.set_xlabel('Average number of avoided computations per input at training (millions)', fontsize=14, labelpad= 18)
+    ax.set_ylabel('Average energy consumed across 100 epochs (kWh)', fontsize=14)
+    ax.tick_params(axis='both', which='major', labelsize=14)
     ax.grid(True)
-    ax.legend(loc='lower left', bbox_to_anchor=(0, 0.05))
+    ax.legend(loc='lower left', bbox_to_anchor=(0, 0.05), fontsize = 14)
 
 fig, axs = plt.subplots(1, 2, figsize=(14, 6)) 
 
@@ -531,21 +579,19 @@ def plot_with_error_bars_computations_testing(ax, x, y, y_sd, marker, label, col
                 ecolor=(0, 0, 0, 0.3), capsize=5, linestyle='None', markersize=7)
     ax.axhline(y=baseline, linestyle='--', color='black', alpha=0.7,
                label=baseline_label, linewidth=2)
-    ax.set_xlabel('Avoided computations at testing (millions)', fontsize=12)
-    ax.set_ylabel('Energy (kWh)', fontsize=12)
-    ax.tick_params(axis='both', which='major', labelsize=12)
+    ax.set_xlabel('Average number of avoided computations per input at testing (millions)', fontsize=14, labelpad=18)
+    ax.set_ylabel('Average energy consumed across 100 epochs (kWh)', fontsize=14)
+    ax.tick_params(axis='both', which='major', labelsize=14)
     ax.grid(True)
-    ax.legend(loc='lower left', bbox_to_anchor=(0, 0.05))
+    ax.legend(loc='lower left', bbox_to_anchor=(0, 0.05), fontsize = 14)
 
 # GPU energy vs threshold
-plot_with_std_energy(axs[0], threshold_list, gpu_list_avg, gpu_list_sd, 'd-', 'Energy (GPU)', 'green',
-              baseline=0.0224, baseline_label='Baseline GPU energy')
-axs[0].set_title('Energy (GPU) vs Threshold', fontsize=16)
+plot_with_std_energy(axs[0], threshold_list, gpu_list_avg, gpu_list_sd, 'd-', 'Average energy consumed (GPU)', 'green',
+              baseline=0.0224, baseline_label='Average energy consumed by baseline (GPU)')
 
 # CPU energy vs threshold
-plot_with_std_energy(axs[1], threshold_list, cpu_list_avg, cpu_list_sd, 'd-', 'Energy (CPU)', 'green',
-              baseline=0.0310, baseline_label='Baseline CPU energy')
-axs[1].set_title('Energy (CPU) vs Threshold', fontsize=16)
+plot_with_std_energy(axs[1], threshold_list, cpu_list_avg, cpu_list_sd, 'd-', 'Average energy consumed (CPU)', 'green',
+              baseline=0.0310, baseline_label='Average energy consumed by baseline (CPU)')
 
 plt.tight_layout()
 plt.show()
@@ -553,14 +599,12 @@ plt.show()
 fig, axs = plt.subplots(1, 2, figsize=(14, 6))  # 1 row, 2 columns
 
 # RAM energy vs threshold
-plot_with_std_energy(axs[0], threshold_list, ram_list_avg, ram_list_sd, 'd-', 'Energy (RAM)', 'green',
-              baseline=0.0055, baseline_label='Baseline RAM energy')
-axs[0].set_title('Energy (RAM) vs Threshold', fontsize=16)
+plot_with_std_energy(axs[0], threshold_list, ram_list_avg, ram_list_sd, 'd-', 'Average energy consumed (RAM)', 'green',
+              baseline=0.0055, baseline_label='Average energy consumed by baseline (RAM)')
 
 # Total energy vs threshold
-plot_with_std_energy(axs[1], threshold_list, energy_list_avg, energy_list_sd, 'd-', 'Total energy', 'green',
-              baseline=0.0589, baseline_label='Baseline total energy')
-axs[1].set_title('Total energy vs Threshold', fontsize=16)
+plot_with_std_energy(axs[1], threshold_list, energy_list_avg, energy_list_sd, 'd-', 'Average energy consumed (Total)', 'green',
+              baseline=0.0589, baseline_label='Average energy consumed by baseline (Total)')
 
 plt.tight_layout()
 plt.show()
@@ -569,13 +613,11 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))
 
 # GPU energy vs switched off channels (Training)
 plot_with_error_bars_channels_training(axs[0], switched_off_training_avg, gpu_list_avg, gpu_list_sd,
-                     'd', 'Energy (GPU)', 'green', baseline=0.0224, baseline_label='Baseline GPU energy')
-axs[0].set_title('Energy (GPU) vs Number of channels switched off at training', fontsize=16)
+                     'd', 'Average energy consumed (GPU)', 'green', baseline=0.0224, baseline_label='Average energy consumed by baseline (GPU)')
 
 # CPU energy vs switched off channels (Training)
 plot_with_error_bars_channels_training(axs[1], switched_off_training_avg, cpu_list_avg, cpu_list_sd,
-                     'd', 'Energy (CPU)', 'green', baseline=0.0310, baseline_label='Baseline CPU energy')
-axs[1].set_title('Energy (CPU) vs Number of channels switched off at training', fontsize=16)
+                     'd', 'Average energy consumed (CPU)', 'green', baseline=0.0310, baseline_label='Average energy consumed by baseline (CPU)')
 
 plt.tight_layout()
 plt.show()
@@ -584,13 +626,11 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))  # 1 row, 2 columns
 
 # RAM energy vs switched off channels (Training)
 plot_with_error_bars_channels_training(axs[0], switched_off_training_avg, ram_list_avg, ram_list_sd,
-                     'd', 'Energy (RAM)', 'green', baseline=0.0055, baseline_label='Baseline RAM energy')
-axs[0].set_title('Energy (RAM) vs Number of channels switched off at training', fontsize=16)
+                     'd', 'Average energy consumed (RAM)', 'green', baseline=0.0055, baseline_label='Average energy consumed by baseline (RAM)')
 
 # Total energy vs switched off channels (Training)
 plot_with_error_bars_channels_training(axs[1], switched_off_training_avg, energy_list_avg, energy_list_sd,
-                     'd', 'Total energy', 'green', baseline=0.0589, baseline_label='Baseline total energy')
-axs[1].set_title('Total energy vs Number of channels switched off at training', fontsize=16)
+                     'd', 'Average energy consumed (Total)', 'green', baseline=0.0589, baseline_label='Average energy consumed by baseline (Total)')
 
 plt.tight_layout()
 plt.show()
@@ -599,13 +639,11 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))  # 2 graphs side by side
 
 # GPU energy vs switched off channels (Testing)
 plot_with_error_bars_channels_testing(axs[0], switched_off_testing_avg, gpu_list_avg, gpu_list_sd,
-                     'd', 'Energy (GPU)', 'green', baseline=0.0224, baseline_label='Baseline GPU energy')
-axs[0].set_title('Energy (GPU) vs Number of channels switched off at testing', fontsize=16)
+                     'd', 'Average energy consumed (GPU)', 'green', baseline=0.0224, baseline_label='Average energy consumed by baseline (GPU)')
 
 # CPU energy vs switched off channels (Testing)
 plot_with_error_bars_channels_testing(axs[1], switched_off_testing_avg, cpu_list_avg, cpu_list_sd,
-                     'd', 'Energy (CPU)', 'green', baseline=0.0310, baseline_label='Baseline CPU energy')
-axs[1].set_title('Energy (CPU) vs Number of channels switched off at testing', fontsize=16)
+                     'd', 'Average energy consumed (CPU)', 'green', baseline=0.0310, baseline_label='Average energy consumed by baseline (CPU)')
 
 plt.tight_layout()
 plt.show()
@@ -616,13 +654,11 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))  # 1 row, 2 columns
 
 # RAM energy vs switched off channels (Testing)
 plot_with_error_bars_channels_testing(axs[0], switched_off_testing_avg, ram_list_avg, ram_list_sd,
-                     'd', 'Energy (RAM)', 'green', baseline=0.0055, baseline_label='Baseline RAM energy')
-axs[0].set_title('Energy (RAM) vs Number of channels switched off at testing', fontsize=16)
+                     'd', 'Average energy consumed (RAM)', 'green', baseline=0.0055, baseline_label='Average energy consumed by baseline (RAM)')
 
 # Total energy vs switched off channels (Testing)
 plot_with_error_bars_channels_testing(axs[1], switched_off_testing_avg, energy_list_avg, energy_list_sd,
-                     'd', 'Total energy', 'green', baseline=0.0589, baseline_label='Baseline total energy')
-axs[1].set_title('Total energy vs Number of channels switched off at testing', fontsize=16)
+                     'd', 'Average energy consumed (Total)', 'green', baseline=0.0589, baseline_label='Average energy consumed by baseline (Total)')
 
 plt.tight_layout()
 plt.show()
@@ -631,13 +667,11 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))
 
 # GPU energy vs avoided computations (Training)
 plot_with_error_bars_computations_training(axs[0], values_training_avg, gpu_list_avg, gpu_list_sd,
-                     'd', 'Energy (GPU)', 'green', baseline=0.0224, baseline_label='Baseline GPU energy')
-axs[0].set_title('Energy (GPU) vs Avoided computations at training', fontsize=16)
+                     'd', 'Average energy consumed (GPU)', 'green', baseline=0.0224, baseline_label='Average energy consumed by baseline (GPU)')
 
 # CPU energy vs avoided computations (Training)
 plot_with_error_bars_computations_training(axs[1], values_training_avg, cpu_list_avg, cpu_list_sd,
-                     'd', 'Energy (CPU)', 'green', baseline=0.0310, baseline_label='Baseline CPU energy')
-axs[1].set_title('Energy (CPU) vs Avoided computations at training', fontsize=16)
+                     'd', 'Average energy consumed (CPU)', 'green', baseline=0.0310, baseline_label='Average energy consumed by baseline (CPU)')
 
 plt.tight_layout()
 plt.show()
@@ -646,13 +680,11 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))  # 1 row, 2 columns
 
 # RAM energy vs avoided computations (Training)
 plot_with_error_bars(axs[0], values_training_avg, ram_list_avg, ram_list_sd,
-                     'd', 'Energy (RAM)', 'green', baseline=0.0055, baseline_label='Baseline RAM energy')
-axs[0].set_title('Energy (RAM) vs Avoided computations at training', fontsize=16)
+                     'd', 'Average energy consumed (RAM)', 'green', baseline=0.0055, baseline_label='Average energy consumed by baseline (RAM)')
 
 # Total energy vs avoided computations (Training)
 plot_with_error_bars(axs[1], values_training_avg, energy_list_avg, energy_list_sd,
-                     'd', 'Total energy', 'green', baseline=0.0589, baseline_label='Baseline total energy')
-axs[1].set_title('Total energy vs Avoided computations at training', fontsize=16)
+                     'd', 'Average energy consumed (Total)', 'green', baseline=0.0589, baseline_label='Average energy consumed by baseline (Total)')
 
 plt.tight_layout()
 plt.show()
@@ -661,13 +693,11 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))
 
 # GPU energy vs avoided computations (Testing)
 plot_with_error_bars_computations_testing(axs[0], values_testing_avg, gpu_list_avg, gpu_list_sd,
-                     'd', 'Energy (GPU)', 'green', baseline=0.0224, baseline_label='Baseline GPU energy')
-axs[0].set_title('Energy (GPU) vs Avoided computations at testing', fontsize=16)
+                     'd', 'Average energy consumed (GPU)', 'green', baseline=0.0224, baseline_label='Average energy consumed by baseline (GPU)')
 
 # CPU energy vs avoided computations (Testing)
 plot_with_error_bars_computations_testing(axs[1], values_testing_avg, cpu_list_avg, cpu_list_sd,
-                     'd', 'Energy (CPU)', 'green', baseline=0.0310, baseline_label='Baseline CPU energy')
-axs[1].set_title('Energy (CPU) vs Avoided computations at testing', fontsize=16)
+                     'd', 'Average energy consumed (CPU)', 'green', baseline=0.0310, baseline_label='Average energy consumed by baseline (CPU)')
 
 plt.tight_layout()
 plt.show()
@@ -676,13 +706,11 @@ fig, axs = plt.subplots(1, 2, figsize=(16, 6))
 
 # RAM energy vs avoided computations (Testing)
 plot_with_error_bars(axs[0], values_testing_avg, ram_list_avg, ram_list_sd,
-                     'd', 'Energy (RAM)', 'green', baseline=0.0055, baseline_label='Baseline RAM energy')
-axs[0].set_title('Energy (RAM) vs Avoided computations at testing', fontsize=16)
+                     'd', 'Average energy consumed (RAM)', 'green', baseline=0.0055, baseline_label='Average energy consumed by baseline (RAM)')
 
 # Total energy vs avoided computations (Testing)
 plot_with_error_bars(axs[1], values_testing_avg, energy_list_avg, energy_list_sd,
-                     'd', 'Total energy', 'green', baseline=0.0589, baseline_label='Baseline total energy')
-axs[1].set_title('Total energy vs Avoided computations at testing', fontsize=16)
+                     'd', 'Average energy consumed (Total)', 'green', baseline=0.0589, baseline_label='Average energy consumed by baseline (Total)')
 
 plt.tight_layout()
 plt.show()
@@ -700,20 +728,20 @@ def plot_with_std_treshold(ax, x, y, y_sd, label, color):
 fig, axs = plt.subplots(1, 2, figsize=(14, 6))
 
 # Threshold vs channels switched off (training)
-plot_with_std_treshold(axs[0], threshold_list, switched_off_training_avg, switched_off_training_sd, 'Switched Off Channels (Training)', 'purple')
-axs[0].set_xlabel('Threshold')
-axs[0].set_ylabel('Switched Off Channels')
-axs[0].set_title('Training - Number of switched Off Channels vs Threshold')
+plot_with_std_treshold(axs[0], threshold_list, switched_off_training_avg, switched_off_training_sd, 'Switched off channels (Training)', 'purple')
+axs[0].set_xlabel('Threshold', fontsize = 14)
+axs[0].set_ylabel('Average number of switched off channels per input', fontsize = 14)
 axs[0].grid(True)
-axs[0].legend()
+axs[0].legend(loc = "upper left", fontsize = 12)
+axs[0].tick_params(axis='both', which='major', labelsize=14)
 
 # Threshold vs channels switched off (testing)
-plot_with_std_treshold(axs[1], threshold_list, switched_off_testing_avg, switched_off_testing_sd, 'Switched Off Channels (Testing)', 'brown')
-axs[1].set_xlabel('Threshold')
-axs[1].set_ylabel('Switched Off Channels')
-axs[1].set_title('Testing - Number of switched Off Channels vs Threshold')
+plot_with_std_treshold(axs[1], threshold_list, switched_off_testing_avg, switched_off_testing_sd, 'Switched off channels (Testing)', 'brown')
+axs[1].set_xlabel('Threshold', fontsize = 14)
+axs[1].set_ylabel('Average number of switched off channels per input', fontsize = 14)
 axs[1].grid(True)
-axs[1].legend()
+axs[1].legend(loc = "upper left", fontsize = 12)
+axs[1].tick_params(axis='both', which='major', labelsize=14)
 
 plt.tight_layout()
 plt.show()
@@ -721,20 +749,20 @@ plt.show()
 fig, axs = plt.subplots(1, 2, figsize=(14, 6))
 
 # Threshold vs avoided computations (training)
-plot_with_std(axs[0], threshold_list, values_training_avg, values_training_sd, 'Avoided computations for training (millions)', 'purple')
-axs[0].set_xlabel('Threshold')
-axs[0].set_ylabel('Avoided computations (millions)')
-axs[0].set_title('Training - Number of avoided computations vs Threshold')
+plot_with_std(axs[0], threshold_list, values_training_avg, values_training_sd, 'Avoided computations for training', 'purple')
+axs[0].set_xlabel('Threshold', fontsize = 14)
+axs[0].set_ylabel('Average number of avoided computations per input (millions)', fontsize = 13)
 axs[0].grid(True)
-axs[0].legend()
+axs[0].legend(loc = "lower right", fontsize = 12)
+axs[0].tick_params(axis='both', which='major', labelsize=14)
 
 # Threshold vs avoided computations (testing)
-plot_with_std(axs[1], threshold_list, values_testing_avg, values_testing_sd, 'Avoided computations for testing (millions)', 'brown')
-axs[1].set_xlabel('Threshold')
-axs[1].set_ylabel('Avoided computations (millions)')
-axs[1].set_title('Testing - Number of avoided computations vs Threshold')
+plot_with_std(axs[1], threshold_list, values_testing_avg, values_testing_sd, 'Avoided computations for testing', 'brown')
+axs[1].set_xlabel('Threshold', fontsize = 14)
+axs[1].set_ylabel('Average number of avoided computations per input (millions)', fontsize = 13)
 axs[1].grid(True)
-axs[1].legend()
+axs[1].legend(loc = "lower right", fontsize = 12)
+axs[1].tick_params(axis='both', which='major', labelsize=14)
 
 plt.tight_layout()
 plt.show()
@@ -748,24 +776,28 @@ fig = plt.figure(figsize=(8, 6))
 plt.subplots_adjust(left=0.15, right=0.95, bottom=0.15, top=0.95)
 ax = fig.add_subplot(projection='3d')
 
-colors = ['m', 'b', 'c', 'r', 'k', 'g']
-yticks = threshold_list[13:18]
-channels_switched_off_training_graph = switched_off_training_detail_avg[13:18]
+colors = ['m', 'b', 'c', 'r', 'y', 'g']
+yticks = threshold_list[12:17] #thresholds 13 to 17
+channels_switched_off_training_graph = switched_off_training_detail_avg[12:17]
 
-for c, k, ys in zip(colors, yticks, channels_switched_off_training_graph):
+for i, (c, k, ys) in enumerate(zip(colors, yticks, channels_switched_off_training_graph)):
     xs = [1,2,3,4,5,6,7,8,9]
     cs = [c] * len(xs)
 
-    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=0.8)
+    alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
 
-fig.suptitle('Number of switched off channels at training for each SE layer\nand for most relevant thresholds', fontsize = 14, y = 0.92, x = 0.58)
-ax.set_xlabel('Number of the SE Layer',fontsize=10, labelpad=5)
-ax.set_ylabel('Threshold', fontsize=10, labelpad=10)
-ax.set_zlabel('Switched off channels at training', fontsize=10, labelpad=5)
+    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
+    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
 
+ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
+ax.set_ylabel('Threshold', fontsize=14, labelpad=20)
+ax.set_zlabel('Average number of switched off\n channels per input at training', fontsize=12, labelpad=18)
+ax.tick_params(axis='both', which='major', labelsize=12)
+
+# On the y-axis let's only label the discrete values that we have data for.
 ax.set_yticks(yticks)
 ax.set_xticks(xs)
-ax.set_box_aspect(None, zoom=0.85)
+ax.set_box_aspect(None, zoom=0.73)
 
 plt.show()
 
@@ -774,24 +806,28 @@ fig = plt.figure(figsize=(8, 6))
 plt.subplots_adjust(left=0.15, right=0.95, bottom=0.15, top=0.95)
 ax = fig.add_subplot(projection='3d')
 
-colors = ['m', 'b', 'c', 'r', 'k', 'g']
-yticks = threshold_list[13:18]
-channels_switched_off_testing_graph = switched_off_testing_detail_avg[13:18]
+colors = ['m', 'b', 'c', 'r', 'y', 'g']
+yticks = threshold_list[12:17] #thresholds 13 to 17
+channels_switched_off_testing_graph = switched_off_testing_detail_avg[12:17]
 
-for c, k, ys in zip(colors, yticks, channels_switched_off_testing_graph):
+for i, (c, k, ys) in enumerate(zip(colors, yticks, channels_switched_off_testing_graph)):
     xs = [1,2,3,4,5,6,7,8,9]
     cs = [c] * len(xs)
 
-    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=0.8)
+    alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
 
-fig.suptitle('Number of switched off channels at testing for each SE layer\nand for most relevant thresholds', fontsize = 14, y = 0.92, x = 0.58)
-ax.set_xlabel('Number of the SE Layer',fontsize=10, labelpad=5)
-ax.set_ylabel('Threshold', fontsize=10, labelpad=10)
-ax.set_zlabel('Switched off channels at testing', fontsize=10, labelpad=5)
+    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
+    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
 
+ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
+ax.set_ylabel('Threshold', fontsize=14, labelpad=20)
+ax.set_zlabel('Average number of switched off\n channels per input at testing', fontsize=12, labelpad=18)
+ax.tick_params(axis='both', which='major', labelsize=12, pad = 5)
+
+# On the y-axis let's only label the discrete values that we have data for.
 ax.set_yticks(yticks)
 ax.set_xticks(xs)
-ax.set_box_aspect(None, zoom=0.85)
+ax.set_box_aspect(None, zoom=0.73)
 
 plt.show()
 
@@ -800,25 +836,29 @@ fig = plt.figure(figsize=(8, 6))
 plt.subplots_adjust(left=0.15, right=0.95, bottom=0.15, top=0.95)
 ax = fig.add_subplot(projection='3d')
 
-colors = ['m', 'b', 'c', 'r', 'k', 'g']
-yticks = threshold_list[13:18]
-values_training_graph = values_training_detail_avg[13:18]
+colors = ['m', 'b', 'c', 'r', 'y', 'g']
+yticks = threshold_list[12:17] #thresholds 13 to 17
+values_training_graph = (values_training_detail_avg[12:17])
 
-for c, k, ys in zip(colors, yticks, values_training_graph):
+for i, (c, k, ys) in enumerate(zip(colors, yticks, values_training_graph)):
     xs = [1,2,3,4,5,6,7,8,9]
     cs = [c] * len(xs)
 
-    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=0.8)
+    alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
 
-fig.suptitle('Number of avoided computations at training for each SE layer\nand for most relevant thresholds', fontsize = 14, y = 0.92, x = 0.58)
-ax.set_xlabel('Number of the SE Layer',fontsize=10, labelpad=5)
-ax.set_ylabel('Threshold', fontsize=10, labelpad=10)
-ax.set_zlabel('Avoided computations at training', fontsize=10, labelpad=18)
+    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
+    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
 
+ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
+ax.set_ylabel('Threshold', fontsize=14, labelpad=23)
+ax.set_zlabel('Average number of avoided\n computations per input at training', fontsize=12, labelpad=38)
+ax.tick_params(axis='both', which='major', labelsize=11, pad = 7)
+
+# On the y-axis let's only label the discrete values that we have data for.
 ax.set_yticks(yticks)
 ax.set_xticks(xs)
-ax.tick_params(axis='z', pad=10)
-ax.set_box_aspect(None, zoom=0.85)
+ax.tick_params(axis='z', pad=15)
+ax.set_box_aspect(None, zoom=0.63)
 
 plt.show()
 
@@ -827,24 +867,148 @@ fig = plt.figure(figsize=(8, 6))
 plt.subplots_adjust(left=0.15, right=0.95, bottom=0.15, top=0.95)
 ax = fig.add_subplot(projection='3d')
 
-colors = ['m', 'b', 'c', 'r', 'k', 'g']
-yticks = threshold_list[13:18]
-values_testing_graph = values_testing_detail_avg[13:18]
+colors = ['m', 'b', 'c', 'r', 'y', 'g']
+yticks = threshold_list[12:17] #thresholds 13 to 17
+values_testing_graph = values_testing_detail_avg[12:17]
 
-for c, k, ys in zip(colors, yticks, values_testing_graph):
+for i, (c, k, ys) in enumerate(zip(colors, yticks, values_testing_graph)):
     xs = [1,2,3,4,5,6,7,8,9]
     cs = [c] * len(xs)
 
-    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=0.8)
+    alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
 
-fig.suptitle('Number of avoided computations at testing for each SE layer\nand for most relevant thresholds', fontsize = 14, y = 0.92, x = 0.58)
-ax.set_xlabel('Number of the SE Layer',fontsize=10, labelpad=5)
-ax.set_ylabel('Threshold', fontsize=10, labelpad=10)
-ax.set_zlabel('Avoided computations at testing', fontsize=10, labelpad=18)
+    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
+    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
+
+ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
+ax.set_ylabel('Threshold', fontsize=14, labelpad=23)
+ax.set_zlabel('Average number of avoided\n computations per input at testing', fontsize=12, labelpad=38)
+ax.tick_params(axis='both', which='major', labelsize=11, pad = 7)
+
+# On the y-axis let's only label the discrete values that we have data for.
+ax.set_yticks(yticks)
+ax.set_xticks(xs)
+ax.tick_params(axis='z', pad=15)
+ax.set_box_aspect(None, zoom=0.63)
+
+plt.show()
+
+#Percentage of switched off channels per layer per threshold (training)
+fig = plt.figure(figsize=(8, 6))
+plt.subplots_adjust(left=0.15, right=0.95, bottom=0.15, top=0.95)
+ax = fig.add_subplot(projection='3d')
+
+colors = ['m', 'b', 'c', 'r', 'y', 'g']
+yticks = threshold_list[12:17]  # thresholds 13 to 17
+channels_switched_off_training_graph = switched_off_training_percent_avg[12:17]
+
+for i, (c, k, ys) in enumerate(zip(colors, yticks, channels_switched_off_training_graph)):
+    xs = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    cs = [c] * len(xs)
+
+    alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
+
+    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
+
+ax.set_xlabel('Number of the SE Layer', fontsize=14, labelpad=18)
+ax.set_ylabel('Threshold', fontsize=14, labelpad=20)
+ax.set_zlabel('Average percentage of switched off\n channels per input at training', fontsize=12, labelpad=18)
+ax.tick_params(axis='both', which='major', labelsize=12, pad = 5)
 
 ax.set_yticks(yticks)
 ax.set_xticks(xs)
-ax.tick_params(axis='z', pad=10)
-ax.set_box_aspect(None, zoom=0.85)
+ax.set_box_aspect(None, zoom=0.73)
+
+plt.show()
+
+#Percentage of switched off channels per layer per threshold (testing)
+fig = plt.figure(figsize=(8, 6))
+plt.subplots_adjust(left=0.15, right=0.95, bottom=0.15, top=0.95)
+ax = fig.add_subplot(projection='3d')
+
+colors = ['m', 'b', 'c', 'r', 'y', 'g']
+yticks = threshold_list[12:17] #thresholds 13 to 17
+channels_switched_off_testing_graph = switched_off_testing_percent_avg[12:17]
+
+for i, (c, k, ys) in enumerate(zip(colors, yticks, channels_switched_off_testing_graph)):
+    xs = [1,2,3,4,5,6,7,8,9]
+    cs = [c] * len(xs)
+
+    alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
+
+    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
+    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
+
+ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
+ax.set_ylabel('Threshold', fontsize=14, labelpad=20)
+ax.set_zlabel('Average percentage of switched off\n channels per input at testing', fontsize=12, labelpad=18)
+ax.tick_params(axis='both', which='major', labelsize=12, pad = 5)
+
+# On the y-axis let's only label the discrete values that we have data for.
+ax.set_yticks(yticks)
+ax.set_xticks(xs)
+ax.set_box_aspect(None, zoom=0.73)
+
+plt.show()
+
+#Percentage of avoided computations per layer per threshold (training)
+fig = plt.figure(figsize=(8, 6))
+plt.subplots_adjust(left=0.15, right=0.95, bottom=0.15, top=0.95)
+ax = fig.add_subplot(projection='3d')
+
+colors = ['m', 'b', 'c', 'r', 'y', 'g']
+yticks = threshold_list[12:17] #thresholds 13 to 17
+values_training_graph = values_off_training_percent_avg[12:17]
+
+for i, (c, k, ys) in enumerate(zip(colors, yticks, values_training_graph)):
+    xs = [1,2,3,4,5,6,7,8,9]
+    cs = [c] * len(xs)
+
+    alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
+
+    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
+    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
+
+ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
+ax.set_ylabel('Threshold', fontsize=14, labelpad=23)
+ax.set_zlabel('Average percentage of avoided\n computations per input at training', fontsize=12, labelpad=38)
+ax.tick_params(axis='both', which='major', labelsize=11, pad = 7)
+
+# On the y-axis let's only label the discrete values that we have data for.
+ax.set_yticks(yticks)
+ax.set_xticks(xs)
+ax.tick_params(axis='z', pad=15)
+ax.set_box_aspect(None, zoom=0.63)
+
+plt.show()
+
+#Percentage of avoided computations per layer per threshold (testing)
+fig = plt.figure(figsize=(8, 6))
+plt.subplots_adjust(left=0.15, right=0.95, bottom=0.15, top=0.95)
+ax = fig.add_subplot(projection='3d')
+
+colors = ['m', 'b', 'c', 'r', 'y', 'g']
+yticks = threshold_list[12:17] #thresholds 13 to 17
+values_testing_graph = values_off_testing_percent_avg[12:17]
+
+for i, (c, k, ys) in enumerate(zip(colors, yticks, values_testing_graph)):
+    xs = [1,2,3,4,5,6,7,8,9]
+    cs = [c] * len(xs)
+
+    alpha_val = 0.6 if i == len(yticks) - 1 else 1.0
+
+    # Plot the bar graph given by xs and ys on the plane y=k with 80% opacity.
+    ax.bar(xs, ys, zs=k, zdir='y', color=cs, alpha=alpha_val)
+
+ax.set_xlabel('Number of the SE Layer',fontsize=14, labelpad=18)
+ax.set_ylabel('Threshold', fontsize=14, labelpad=23)
+ax.set_zlabel('Average percentage of avoided\n computations per input at testing', fontsize=12, labelpad=38)
+ax.tick_params(axis='both', which='major', labelsize=11, pad = 7)
+
+# On the y-axis let's only label the discrete values that we have data for.
+ax.set_yticks(yticks)
+ax.set_xticks(xs)
+ax.tick_params(axis='z', pad=15)
+ax.set_box_aspect(None, zoom=0.63)
 
 plt.show()
